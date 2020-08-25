@@ -1,4 +1,10 @@
+First let me give the credit to the original source of this demo: https://rcarrata.com/istio/traffic-mirroring-in-service-mesh/
+I have improve this based on what I need and this is the outcome.
+
+
 #Draft Instruction
+
+
 
 Pre-reqs (if you run the lab already):
 
