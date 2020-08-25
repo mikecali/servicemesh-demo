@@ -1,5 +1,5 @@
-First let me give the credit to the original source of this demo: https://rcarrata.com/istio/traffic-mirroring-in-service-mesh/
-I have improve this based on what I need and this is the outcome.
+First let me give the credit to my fellow RedHatter who is the original source of this demo: https://github.com/rcarrata/istio-files
+I have improved/change this based on what I need and this is the outcome.
 
 
 #Draft Instruction
