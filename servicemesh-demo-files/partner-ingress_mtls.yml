@@ -56,7 +56,7 @@ spec:
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
-  subset:
+  subsets:
   - labels:
       version: v1
     name: version-v1
