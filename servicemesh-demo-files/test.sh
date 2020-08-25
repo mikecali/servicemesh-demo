@@ -1,6 +1,6 @@
 #!/bin/bash
 
-url=$1
+url=customer-anz-servicemesh-demo-istio-system.apps.cluster-e890.e890.sandbox1543.opentlc.com
 i=0
 while :
 do

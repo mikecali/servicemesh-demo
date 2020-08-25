@@ -1,10 +1,10 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: customer
+  name: partner
   namespace: istio-system
 spec:
-  host: customer-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
+  host: partner-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
   port:
     targetPort: http2
   to:
@@ -16,14 +16,14 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: customer-gw
+  name: partner-gw
   namespace: ${NAMESPACE}
 spec:
   selector:
     istio: ingressgateway
   servers:
   - hosts:
-    - customer-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
+    - partner-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
     port:
       name: http2
       number: 80
@@ -32,32 +32,33 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: customer
+  name: partner
   namespace: ${NAMESPACE}
 spec:
   gateways:
-  - customer-gw
+  - partner-gw
   hosts:
-  - customer-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
+  - partner-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
   http:
   - route:
     - destination:
-        host: customer
-        subsets: version-v1
+        host: partner
+        subset: version-v1
       weight: 100
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: customer
+  name: partner
   namespace: ${NAMESPACE}
 spec:
-  host: customer
+  host: partner
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
-  subsets:
+  subset:
   - labels:
       version: v1
     name: version-v1
 ---
+
