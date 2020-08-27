@@ -235,7 +235,12 @@ Once the patch is done we can execute some test either using customer or partner
 > $ oc apply -f recommendation-v1_v2_25_75.mtls.yml
 
 
-Go and Test and view in Kiali
+Go and Test using the script: This will also create load to the application.
+
+> $ ./test-partner.sh
+> $ ./test-customer.sh
+
+Then view in Kiali
 
 ========================================
 # Task 4: Traffic Mirroring:
@@ -250,10 +255,13 @@ Before we create need to create customer app v2 first.
 
 > $ oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
 
-Now lets render and apply the mirror VirtualService
+Now lets render and apply the mirror VirtualService.
 
 > $ cat customer-mirror-traffic.yml | envsubst | oc apply -f -
 
+Then put a load to the apps.
+
+> $ test-partner.sh
 
 So in conclusion, this route rule sends 100% of the traffic to v1. The last stanza specifies that you want to mirror to the customer:v2 service. 
 When traffic gets mirrored, the requests are sent to the mirrored service with their Host/Authority headers appended with -shadow. For example, cluster-1 becomes cluster-1-shadow.
