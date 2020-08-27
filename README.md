@@ -78,6 +78,9 @@ Let's us patch this with a new annotation.
 
 > $ oc patch dc/customer -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $Pdemo 
 
+Example Output:
+![image](https://user-images.githubusercontent.com/17167732/91500310-5f437f00-e917-11ea-8452-19d77064effe.png)
+
 > $ oc patch dc/preference -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $Pdemo 
 
 > $ oc patch dc/recommendation -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $Pdemo 
