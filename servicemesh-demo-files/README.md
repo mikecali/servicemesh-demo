@@ -13,25 +13,24 @@ oc new-project $OCP_NS
 
 Delete ServiceMeshMemberRoll
 
-Tasks 1:
-Deploy Microservices 
+# Tasks 1: Deploy Microservices 
 
 The Microservices application will look like this.
 ( customer | partner ) ⇒ preference ⇒ recommendation
 
 #Deploy Customer Application v1 app :
-oc new-app -l app=customer,version=v1 --name=customer --docker-image=quay.io/rcarrata/customer:quarkus -e VERSION=v1 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo 
+oc new-app -l app=customer,version=v1 --name=customer --docker-image=quay.io/mikecali/customer -e VERSION=v1 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo 
 oc expose svc customer -n $Pdemo 
 
 #Deploy Partner v1 app
-oc new-app -l app=partner,version=v1 --name=partner --docker-image=quay.io/rcarrata/partner:sb -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo 
+oc new-app -l app=partner,version=v1 --name=partner --docker-image=quay.io/mikecali/partner:java1 -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo 
 oc expose svc partner -n $Pdemo 
 
 #Deploy Preference v1 Appl
-oc new-app -l app=preference,version=v1 --name=preference --docker-image=quay.io/rcarrata/preference:quarkus -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true'  -n $Pdemo 
+oc new-app -l app=preference,version=v1 --name=preference --docker-image=quay.io/mikecali/preference -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true'  -n $Pdemo 
 
 #Deploy recommendation v1 App
-oc new-app -l app=recommendation,version=v1 --name=recommendation --docker-image=quay.io/dsanchor/recommendation:vertx -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -e VERSION=v1 -n $Pdemo 
+oc new-app -l app=recommendation,version=v1 --name=recommendation --docker-image=quay.io/mikecali/recommendations -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -e VERSION=v1 -n $Pdemo 
 
 
 Check/verify routes:
@@ -44,7 +43,7 @@ curl -I
 
 Done of Traditional App Deployment.
 
-Task 2: Now lets go and the Meshing!!
+# Task 2: Now lets go and the Meshing!!
 First let's understand the difference between upstream Istio Sidecar injector and the RH Servicemesh Maestra release.
 
 Istio: -  sidecar injector injects all deployments within labeled projects
