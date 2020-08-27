@@ -5,7 +5,15 @@ I have improved/change this based on what I need and this is the outcome.
 
 # Draft Instruction
 
-## Pre-reqs (if you run the lab already):
+## Pre-reqs 
+
+1. OCP 4.3 + configured
+2. Service Mesh Configured
+
+Make sure all pods are running on the istio-system name space.
+![image](https://user-images.githubusercontent.com/17167732/91501353-8ef38680-e919-11ea-87f0-721619f02426.png)
+
+(if you run the lab already):
 
 export OCP_NS=servicemesh-demo
 export Pdemo=anz-servicemesh-demo
