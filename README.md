@@ -21,11 +21,13 @@ The Microservices application will look like this.
 *Deploy Customer Application v1 app*
 
 > oc new-app -l app=customer,version=v1 --name=customer --docker-image=quay.io/mikecali/customer -e VERSION=v1 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo 
+
 > oc expose svc customer -n $Pdemo 
 
 *Deploy Partner v1 app*
 
-> oc new-app -l app=partner,version=v1 --name=partner --docker-image=quay.io/mikecali/partner:java1 -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo 
+> oc new-app -l app=partner,version=v1 --name=partner --docker-image=quay.io/mikecali/partner:java1 -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo
+
 > oc expose svc partner -n $Pdemo 
 
 *Deploy Preference v1 App*
@@ -43,6 +45,7 @@ The Microservices application will look like this.
 
 
 *Access Routes:* 
+
 > curl -I (partner.routes)
 
 This time, what we have just done is to deploy applications using the traditional App Deployment.
