@@ -46,7 +46,7 @@ The Microservices application will look like this.
 
 *Access Routes:* 
 
-> curl -I (partner.routes)
+> curl -I partner.subdomain
 
 This time, what we have just done is to deploy applications using the traditional App Deployment.
 
@@ -173,18 +173,18 @@ Let's now access the Customer microservice app - and view in Kiali:
 
 > $ oc get route -n istio-system customer
 
-> $ curl -I
+> $ curl -I customer-$namespace-istio-system.$SUBDOMAIN
 
 Let's verify the Mutual TLS is running.
 
-> $ openssl s_client -connect customer-anz-servicemesh-demo-istio-system.apps.cluster-e890.e890.sandbox1543.opentlc.com:443
+> $ openssl s_client -connect customer-$namespace-istio-system.$SUBDOMAIN:443
 
 
 Lets verify the old route if we can still access it now that ingress traffic is managed by ServiceMesh:
 
 > $ oc get route -n $Pdemo customer
 
-> $ curl -I
+> $ curl -I customer-$namespace-istio-system.$SUBDOMAIN
 
 NOW lets expose Partner App to use ServiceMesh
 
@@ -201,67 +201,59 @@ Now let us verify if we now have 2 ingress routing in a single service mesh Cont
 A Blue/Green deployment will allow you to define two (or more) versions of the same application to receive traffic with zero downtime. 
 This approach, for instance, will let you release a new version and gradually increment the amount of traffic this version receives.
 
-Run:
-export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
-echo $APP_SUBDOMAIN
-end:
+> $ export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
+
+> $ echo $APP_SUBDOMAIN
 
 
-Deploy Recommendation App v2
-Run:
-oc new-app -l app=recommendation,version=v2 --name=recommendation-v2 --docker-image=quay.io/rcarrata/recommendation:vertx -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -e VERSION=v2 -n $Pdemo
-oc delete svc/recommendation-v2 -n $OCP_NS
-oc get pods -n $OCP_NS | grep recommendation-v2
 
-End:
+*Deploy Recommendation App v2*
+
+> $ oc new-app -l app=recommendation,version=v2 --name=recommendation-v2 --docker-image=quay.io/rcarrata/recommendation:vertx -e JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -e VERSION=v2 -n $Pdemo
+
+> $ oc delete svc/recommendation-v2 -n $OCP_NS
+
+> $ oc get pods -n $OCP_NS | grep recommendation-v2
+
 
 Then Inject the sidecar to the updated dc/recommendation
 
-Run:
-oc patch dc/recommendation-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
-End:
+> $ oc patch dc/recommendation-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
 
 Once the patch is done we can execute some test either using customer or partner services.
 
-Run:
-oc get routes -n istio-system | egrep "customer|partner"
-End:
+> $ oc get routes -n istio-system | egrep "customer|partner"
 
-Show 50-50 weight routes
-Run:
-cat recommendation-v1_v2_mtls.yml
-End:
 
-Apply 75-50 weight routes
-Run:
-oc apply -f recommendation-v1_v2_25_75.mtls.yml
-End:
+*Show 50-50 weight routes*
 
-Test and view in Kiali
+> $ cat recommendation-v1_v2_mtls.yml
 
+
+*Apply 75-50 weight routes*
+
+> $ oc apply -f recommendation-v1_v2_25_75.mtls.yml
+
+
+Go and Test and view in Kiali
 
 ========================================
-Traffic Mirroring:
+# Task 4: Traffic Mirroring:
 Traffic mirroring, also called shadowing, is a powerful concept that allows feature teams to bring changes to production with as little risk as possible. 
 Mirroring sends a copy of live traffic to a mirrored service. The mirrored traffic happens out of band of the critical request path for the primary service.
 
-run:
-export APP_SUBDOMAIN=$(oc get route -n istio-system | grep -i kiali | awk '{ print $2 }' | cut -f 2- -d '.')
-echo $OCP_SUBDOMAIN
-end:
-
 Before we create need to create customer app v2 first.
 
-run:
-oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/rcarrata/customer:quarkus -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $OCP_NS
-oc delete svc/customer-v2 -n $OCP_NS
-oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
-end:
+> $ oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/mcalizo/customer -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $OCP_NS
+
+> $ oc delete svc/customer-v2 -n $OCP_NS
+
+> $ oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
 
 Now lets render and apply the mirror VirtualService
-run:
-cat customer-mirror-traffic.yml | envsubst | oc apply -f -
-end:
+
+> $ cat customer-mirror-traffic.yml | envsubst | oc apply -f -
+
 
 So in conclusion, this route rule sends 100% of the traffic to v1. The last stanza specifies that you want to mirror to the customer:v2 service. 
 When traffic gets mirrored, the requests are sent to the mirrored service with their Host/Authority headers appended with -shadow. For example, cluster-1 becomes cluster-1-shadow.
@@ -272,6 +264,5 @@ Furthermore, you can use the mirror_percent field to mirror a fraction of the tr
 If this field is absent, for compatibility with older versions, all traffic will be mirrored
 
 
-run:
- cat customer-mirror-traffic-adv.yml | envsubst | oc apply -f -
-end:
+> $ cat customer-mirror-traffic-adv.yml | envsubst | oc apply -f -
+
