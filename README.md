@@ -48,6 +48,8 @@ The Microservices application will look like this.
 
 > curl -I partner.subdomain
 
+![image](https://user-images.githubusercontent.com/17167732/91500118-ef34f900-e916-11ea-85fb-acf5654a9dc9.png)
+
 This time, what we have just done is to deploy applications using the traditional App Deployment.
 
 # Task 2: Now lets go and do the Meshing!!
