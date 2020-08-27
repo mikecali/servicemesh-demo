@@ -195,6 +195,7 @@ Let's verify the Mutual TLS is running.
 
 > $ openssl s_client -connect customer-$namespace-istio-system.$SUBDOMAIN:443
 
+![image](https://user-images.githubusercontent.com/17167732/91502139-784e2f00-e91b-11ea-8cc6-77002594bf00.png)
 
 Lets verify the old route if we can still access it now that ingress traffic is managed by ServiceMesh:
 
