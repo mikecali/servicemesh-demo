@@ -261,7 +261,11 @@ Now lets render and apply the mirror VirtualService.
 
 Then put a load to the apps.
 
-> $ test-partner.sh
+> $ test-customer.sh
+
+Then check Kiali and notice that the shadow app appear.
+
+![image](https://user-images.githubusercontent.com/17167732/91498343-b3e4fb00-e913-11ea-8b55-c0824c8578f4.png)
 
 So in conclusion, this route rule sends 100% of the traffic to v1. The last stanza specifies that you want to mirror to the customer:v2 service. 
 When traffic gets mirrored, the requests are sent to the mirrored service with their Host/Authority headers appended with -shadow. For example, cluster-1 becomes cluster-1-shadow.
