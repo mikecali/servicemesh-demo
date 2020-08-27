@@ -56,7 +56,7 @@ The Microservices application will look like this.
 
 > curl -I partner.subdomain
 
-![image](https://user-images.githubusercontent.com/17167732/91500118-ef34f900-e916-11ea-85fb-acf5654a9dc9.png)
+![image](https://user-images.githubusercontent.com/17167732/91501612-25c04300-e91a-11ea-9fac-bdaaf952b3a3.png)
 
 This time, what we have just done is to deploy applications using the traditional App Deployment.
 
@@ -210,6 +210,14 @@ Render and Apply the objects to enable Ingress Routing to CUSTOMER app.
 
 Now let us verify if we now have 2 ingress routing in a single service mesh Control Plane
 > $ oc get routes -n istio-system | egrep "customer|partner"
+
+In *Kiali* you should be able to see the Traffic like below.
+
+![image](https://user-images.githubusercontent.com/17167732/91501743-6ddf6580-e91a-11ea-9678-8fcee085cb1b.png)
+
+In addition, you can also trace the traffic using *Jaeger*
+
+![image](https://user-images.githubusercontent.com/17167732/91501860-ad0db680-e91a-11ea-8b50-d03774c37a82.png)
 
 
 ======================================
