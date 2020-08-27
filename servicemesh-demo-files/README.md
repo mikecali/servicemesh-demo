@@ -1,18 +1,15 @@
+# Giving the Credits where it's due
 First let me give the credit to my fellow RedHatter who is the original source of this demo: https://github.com/rcarrata/istio-files
 I have improved/change this based on what I need and this is the outcome.
 
 
-#Draft Instruction
+# Draft Instruction
 
+## Pre-reqs (if you run the lab already):
 
-
-Pre-reqs (if you run the lab already):
-
-export OCP_NS=anz-servicemesh-demo
+export OCP_NS=servicemesh-demo
 export Pdemo=anz-servicemesh-demo
 oc new-project $OCP_NS
-
-
 
 Delete ServiceMeshMemberRoll
 
