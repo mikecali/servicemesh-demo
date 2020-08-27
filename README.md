@@ -51,10 +51,13 @@ The Microservices application will look like this.
 This time, what we have just done is to deploy applications using the traditional App Deployment.
 
 # Task 2: Now lets go and do the Meshing!!
+
 First let's understand the difference between upstream Istio Sidecar injector and the RH Servicemesh Maestra release.
 
 - Istio: -  sidecar injector injects all deployments within labeled projects
 - Maestra: - relies on presence of the sidecar.istio.io/inject annotation and the project being listed in the ServiceMeshMemberRoll.
+
+![image](https://user-images.githubusercontent.com/17167732/91498514-ff97a480-e913-11ea-832f-26b091f932a5.png)
 
 > sidecar.istio.io/inject: true
 
