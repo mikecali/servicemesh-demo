@@ -2,7 +2,8 @@
 First let me give the credit to my fellow RedHatter who is the original source of this demo: https://github.com/rcarrata/istio-files
 I have improved/change this based on what I need and this is the outcome.
 
-Official OpenShift Service Mesh Documentation - https://www.openshift.com/blog/red-hat-openshift-service-mesh-is-now-available-what-you-should-know
+*Official OpenShift Service Mesh Documentation*
+https://www.openshift.com/blog/red-hat-openshift-service-mesh-is-now-available-what-you-should-know
 
 ## Pre-reqs 
 1. OCP 4.3 + configured
