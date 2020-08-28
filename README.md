@@ -61,16 +61,16 @@ This time, what we have just done is to deploy applications using the traditiona
 
 # Task 2: Now lets go and do the Meshing!!
 
-First let's understand the difference between upstream Istio Sidecar injector and the RH Servicemesh Maestra release.
+First let's understand the difference between upstream Istio Sidecar injector and the RH Servicemesh Maistra release.
 
 - Istio: -  sidecar injector injects all deployments within labeled projects
-- Maestra: - relies on presence of the sidecar.istio.io/inject annotation and the project being listed in the ServiceMeshMemberRoll.
+- Maistra: - relies on presence of the sidecar.istio.io/inject annotation and the project being listed in the ServiceMeshMemberRoll.
 
 ![image](https://user-images.githubusercontent.com/17167732/91498514-ff97a480-e913-11ea-832f-26b091f932a5.png)
 
 > sidecar.istio.io/inject: true
 
-First, we need to enble sidecar enjection of Maestra Proxy the the pods we created. we need to add annotation in the controllers like DC and Deployments and others.
+First, we need to enble sidecar enjection of Maistra Proxy the the pods we created. we need to add annotation in the controllers like DC and Deployments and others.
 Let's inspect a couple of dc that we use in the running services first.
 
 > $ oc describe dc/customer -n $Pdemo | grep Annotations -A3
@@ -273,7 +273,7 @@ Mirroring sends a copy of live traffic to a mirrored service. The mirrored traff
 
 Before we create need to create customer app v2 first.
 
-> $ oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/mcalizo/customer -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $OCP_NS
+> $ oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/mikecali/customer -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $OCP_NS
 
 > $ oc delete svc/customer-v2 -n $OCP_NS
 
