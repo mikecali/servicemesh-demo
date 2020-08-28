@@ -273,11 +273,11 @@ Mirroring sends a copy of live traffic to a mirrored service. The mirrored traff
 
 Before we create need to create customer app v2 first.
 
-> $ oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/mikecali/customer -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $OCP_NS
+> $ oc new-app -l app=customer,version=v2 --name=customer-v2 --docker-image=quay.io/mikecali/customer -e VERSION=v2 -e  JAVA_OPTIONS='-Xms512m -Xmx512m -Djava.net.preferIPv4Stack=true' -n $Pdemo
 
-> $ oc delete svc/customer-v2 -n $OCP_NS
+> $ oc delete svc/customer-v2 -n $Pdemo
 
-> $ oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $OCP_NS
+> $ oc patch dc/customer-v2 -p '{"spec":{"template":{"metadata":{"annotations":{"sidecar.istio.io/inject":"true"}}}}}' -n $Pdemo
 
 Now lets render and apply the mirror VirtualService.
 
