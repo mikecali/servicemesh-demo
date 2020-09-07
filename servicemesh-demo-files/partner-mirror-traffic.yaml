@@ -3,14 +3,14 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: customer
-  namespace: ${Pdemo}
+  namespace: ${NAMESPACE}
   labels:
     group: tutorial
 spec:
   gateways:
   - customer-gw
   hosts:
-  - customer-${Pdemo}-istio-system.${APP_SUBDOMAIN}
+  - customer-${NAMESPACE}-istio-system.${APP_SUBDOMAIN}
   http:
   - route:
     - destination:
@@ -24,7 +24,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: customer
-  namespace: ${Pdemo}
+  namespace: ${NAMESPACE}
   labels:
     group: tutorial
 spec:
